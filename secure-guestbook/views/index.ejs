@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Buku Tamu Aman</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; }
+    .entry { border: 1px solid #ddd; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; }
+    .entry .nama { font-weight: bold; }
+    .entry .email { color: #666; font-size: 0.9em; }
+    .error { background: #fee; color: #c00; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+    .success { background: #efe; color: #060; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+    input, textarea { width: 100%; padding: 8px; margin-bottom: 8px; box-sizing: border-box; }
+    button { padding: 8px 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>📖 Buku Tamu Aman</h1>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="error">
+      <ul>
+        <% errors.forEach(function(err) { %>
+          <li><%= err %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="/entry" method="POST">
+    <label>Nama</label>
+    <input type="text" name="nama" value="<%= old.nama || '' %>" placeholder="Nama kamu">
+
+    <label>Email</label>
+    <input type="text" name="email" value="<%= old.email || '' %>" placeholder="email@contoh.com">
+
+    <label>Pesan</label>
+    <textarea name="pesan" rows="3" placeholder="Tulis pesan..."><%= old.pesan || '' %></textarea>
+
+    <button type="submit">Kirim Pesan</button>
+  </form>
+
+  <hr>
+
+  <form action="/search" method="GET">
+    <input type="text" name="q" value="<%= q || '' %>" placeholder="Cari nama atau isi pesan...">
+    <button type="submit">Cari</button>
+  </form>
+
+  <h2>Daftar Pesan (<%= entries.length %>)</h2>
+
+  <% entries.forEach(function(entry) { %>
+    <div class="entry">
+      <div class="nama"><%= entry.nama %></div>
+      <div class="email"><%= entry.email %></div>
+      <p><%= entry.pesan %></p>
+    </div>
+  <% }); %>
+
+</body>
+</html>
